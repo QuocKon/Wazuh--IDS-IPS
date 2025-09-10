@@ -73,50 +73,56 @@ Sau khi sửa xong, thoát file bằng Esc và gõ :wq để thoát, dùng lện
 
 Kiểm tra nếu như có file đuôi .tar là đã bash thành công, bằng lệnh ll
 
-![img](images/Picture6.png)
-
 Làm tương tự với file indexer của wazuh bằng lệnh (sudo) bash wazuh-Install.sh –wazuh-indexer (tên đã được chỉnh sửa trong phần indexer của file config)
 
-![img](images/Picture7.png)
+![img](images/Picture6.png)
+
 
 Dùng lệnh bash 1 lần nữa với start-cluster bằng lệnh: (sudo) bash wazuh-Install.sh –start-cluster
 
-![img](images/Picture8.png)
+![img](images/Picture7.png)
 
 Sau đó, nhóm sẽ trích xuất tên username và password của indexer trong file wazuh-passwords.txt bằng lệnh tar -0 -xaf wazuh-install-files.tar wazuh-install-files/wazuh-passwords.txt | grep -E "indexer_username|indexer_password"
 
-![img](images/Picture9.png)
+![img](images/Picture8.png)
 
 Ta kiểm tra tình trạng hoạt động của indexer admin bằng lệnh: curl –k –u admin:(password của admin) https://(ip của máy):9200 (9200 là cổng wazuh indexer dùng)
 
-![img](images/Picture10.png)
+![img](images/Picture9.png)
 
 Ta tiếp tục cài đặt wazuh manager bằng lệnh (sudo) bash wazuh-install.sh –wazuh-server (tên đã được chỉnh sửa trong phần server của file config)
 
+![img](images/Picture10.png)
+
+Ta cài nốt wazuh dashboard bằng câu lệnh (sudo) bash wazuh-install.sh --wazuh-dashboard (tên đã được chỉnh sửa trong phần dashboard của file config) ghi nhớ user và password
+
 ![img](images/Picture11.png)
 
-Ta cài nốt wazuh dashboard bằng câu lệnh (sudo) bash wazuh-install.sh --wazuh-dashboard (tên đã được chỉnh sửa trong phần dashboard của file config) ghi nhớ user và password 
+ Ta truy cập vào đường link https://(ip của máy) và sử dụng user và password có được từ wazuh dashboard (hình 14)
+Như vậy là nhóm đã cài đặt thành công Wazuh
 
 ![img](images/Picture12.png)
 
 # Cài đặt và cấu hình wazuh-agent
 Trên trang dashoard của wazuh, chọn mũi tên chỉ xuống nằm giữa tên Wazuh. và Modules rồi bấm vào Agents
 
+![img](images/Picture13.png)
+
 Nhấn vào lựa chọn DEBamd64 của Linux ở mục 1, điền địa chỉ ip của máy wazuh hoặc tên domain của máy wazuh ở mục 2, có thể đặt tên cho máy agent và nhóm có máy agent ở mục 3, copy câu lệnh ở mục 4
 Chuyển sang máy Ubuntu 22, mở Terminal bằng quyền root và nhập câu lệnh copy vào (hoặc sử dụng sudo)
+
+![img](images/Picture14.png)
 
 Sau đó dùng lần lượt các lệnh
 (sudo) systemctl daemon-reload
 (sudo) systemctl start wazuh-agent
 (sudo) systemctl enable wazuh-agent
 
-![img](images/Picture13.png)
+![img](images/Picture15.png)
 
 Cuối cùng, nhóm quay lại máy có cài wazuh manager, nhấn Close để đóng new agent lại, và có thể thấy trạng thái hiển thị có thêm 1 wazuh agent
 
-![img](images/Picture14.png)
-
-
+![img](images/Picture16.png)
 
 Sau khi cài đặt thành công, agent kết nối về server và hiển thị trong dashboard.
 
